@@ -14,6 +14,11 @@ on:
       vtk_short_version:
         description: "VTK short version"
         default: "9.4"
+        type: string
+      tag_name:
+        description: "Tag name"
+        default: "v9.4.1-py3.12"
+        type: string
 
 
 jobs:
@@ -53,3 +58,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: VTK-${{ github.event.inputs.vtk_full_version }}/build/dist/*.whl
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: VTK-${{ github.event.inputs.vtk_full_version }}/build/dist/*.whl
+          tag_name: ${{ github.event.inputs.tag_name }}
