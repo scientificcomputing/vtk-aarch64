@@ -8,11 +8,11 @@ on:
         default: "3.12"
         type: string
       vtk_full_version:
-        description: "VTK version"
+        description: "VTK full version"
         default: "9.4.1"
         type: string
       vtk_short_version:
-        description: "VTK version"
+        description: "VTK short version"
         default: "9.4"
 
 
@@ -47,7 +47,7 @@ jobs:
       - name: Build wheel
         run: |
             python3 -m pip install --upgrade pip setuptools wheel
-            cd build && python3 setup.py bdist_wheel
+            cd VTK-${{ github.event.inputs.vtk_full_version }}/build && python3 setup.py bdist_wheel
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4
