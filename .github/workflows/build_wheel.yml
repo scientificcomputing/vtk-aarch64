@@ -19,13 +19,18 @@ on:
         description: "Tag name"
         default: "v9.4.1-py3.12"
         type: string
-
+      adios2:
+        description: "ADIOS2 version/branch"
+        required: false
+        default: "2.10.2"
 
 jobs:
-
   build_wheels:
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
     name: Build wheel
-    runs-on: ubuntu-24.04-arm  # macos-14
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
@@ -43,16 +48,25 @@ jobs:
       - name: Extract vtk
         run: tar -xzf VTK-${{ github.event.inputs.vtk_full_version }}.tar.gz
 
+      - name: Install adios2
+        shell: bash -el {0}
+        run: |
+          git clone --branch=${{ github.event.inputs.adios2 }} --single-branch https://github.com/ornladios/ADIOS2.git adios2
+          cmake -G Ninja -DADIOS2_USE_HDF5=on -DADIOS2_USE_Python=on -DADIOS2_USE_Fortran=off -DBUILD_TESTING=off -DADIOS2_BUILD_EXAMPLES=off -DADIOS2_USE_ZeroMQ=off -B build-dir-adios2 -S ./adios2
+          cmake -G Ninja -B build-dir-adios2 -DCMAKE_BUILD_TYPE="Release" -S ./adios2/
+          cmake --build build-dir-adios2 --parallel 2
+          cmake --install build-dir-adios2
+
       - name: Build vtk
         run: |
-            cd VTK-${{ github.event.inputs.vtk_full_version }}
-            cmake -GNinja -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -S . -B build
-            cmake --build build
+          cd VTK-${{ github.event.inputs.vtk_full_version }}
+          cmake -GNinja -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -DVTK_MODULE_ENABLE_VTK_IOADIOS2=YES -S . -B build
+          cmake --build build
 
       - name: Build wheel
         run: |
-            python3 -m pip install --upgrade pip setuptools wheel
-            cd VTK-${{ github.event.inputs.vtk_full_version }}/build && python3 setup.py bdist_wheel
+          python3 -m pip install --upgrade pip setuptools wheel
+          cd VTK-${{ github.event.inputs.vtk_full_version }}/build && python3 setup.py bdist_wheel
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4
