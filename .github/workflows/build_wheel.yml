@@ -22,7 +22,7 @@ on:
       adios2:
         description: "ADIOS2 version/branch"
         required: false
-        default: "2.10.2"
+        default: "v2.10.2"
 
 jobs:
   build_wheels:
