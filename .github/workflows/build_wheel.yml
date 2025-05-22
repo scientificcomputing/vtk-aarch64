@@ -9,7 +9,7 @@ on:
         type: string
       vtk_full_version:
         description: "VTK full version"
-        default: "9.4.1"
+        default: "9.4.2"
         type: string
       vtk_short_version:
         description: "VTK short version"
@@ -17,7 +17,7 @@ on:
         type: string
       tag_name:
         description: "Tag name"
-        default: "v9.4.1-py3.12"
+        default: "v9.4.2-py3.12"
         type: string
 
 
