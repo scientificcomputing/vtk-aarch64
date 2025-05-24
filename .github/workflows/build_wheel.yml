@@ -46,7 +46,7 @@ jobs:
       - name: Build vtk
         run: |
             cd VTK-${{ github.event.inputs.vtk_full_version }}
-            cmake -GNinja -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -S . -B build
+            cmake -GNinja -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -DVTK_VERSION_SUFFIX="" -S . -B build
             cmake --build build
 
       - name: Build wheel
