@@ -30,8 +30,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # max cmake version supported by VTK is below package version
+      - name: Setup cmake
+        run: |
+          wget https://cmake.org/files/v3.21/cmake-3.21.7-linux-x86_64.sh
+          bash cmake-3.21.7-linux-x86_64.sh --skip-license
+
       - name: Setup dependencies
-        run: sudo apt update && sudo apt install -y wget cmake ninja-build g++ libx11-dev libgl1-mesa-dev xvfb
+        run: sudo apt update && sudo apt install -y wget libboost-all-dev ninja-build g++ libx11-dev libgl1-mesa-dev xvfb
 
       - uses: actions/setup-python@v5
         with:
@@ -46,7 +52,7 @@ jobs:
       - name: Build vtk
         run: |
             cd VTK-${{ github.event.inputs.vtk_full_version }}
-            cmake -GNinja -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -S . -B build
+            cmake -GNinja -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -DVTK_MODULE_ENABLE_VTK_xdmf2=WANT -DVTK_MODULE_ENABLE_VTK_xdmf3=WANT -S . -B build
             cmake --build build
 
       - name: Build wheel
