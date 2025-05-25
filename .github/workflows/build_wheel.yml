@@ -52,6 +52,7 @@ jobs:
       - name: Build wheel
         run: |
             python3 -m pip install --upgrade pip setuptools wheel
+            sed -i -e "s/'dev0'.strip(' .')/''/g" build/setup.py
             cd VTK-${{ github.event.inputs.vtk_full_version }}/build && python3 setup.py bdist_wheel
 
       - name: Upload wheels
