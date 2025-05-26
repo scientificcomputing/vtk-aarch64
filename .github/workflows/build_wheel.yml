@@ -52,46 +52,7 @@ jobs:
       - name: Build vtk
         run: |
             cd VTK-${{ github.event.inputs.vtk_full_version }}
-            cmake -GNinja -DVTK_WHEEL_BUILD=ON \
-              -DVTK_WRAP_PYTHON=ON -DVTK_INSTALL_SDK=ON \
-              -DVTK_BUILD_PYI_FILES=ON 
-              -DCMAKE_BUILD_TYPE=Release 
-              -DVTK_GROUP_ENABLE_Web=WANT \
-              -DVTK_RELOCATABLE_INSTALL=ON \
-              -DVTK_USE_LARGE_DATA=ON \
-              -DVTK_BUILD_ALL_MODULES=ON \
-              -DVTK_ENABLE_REMOTE_MODULES=OFF \
-              -DVTK_DEBUG_LEAKS=OFF \
-              -DVTK_VERSION_SUFFIX="" \
-              -DVTK_MODULE_ENABLE_VTK_IOXdmf2:STRING=YES \
-              -DVTK_MODULE_ENABLE_VTK_IOXdmf3:STRING=YES \
-              -DVTK_GROUP_ENABLE_Qt=NO \ # Qt
-              -DVTK_MODULE_ENABLE_VTK_CommonArchive=NO \ # libarchive
-              -DVTK_MODULE_ENABLE_VTK_DomainsMicroscopy=NO \ # OpenSlide
-              -DVTK_MODULE_ENABLE_VTK_FiltersOpenTURNS=NO \ # OpenTURNS
-              -DVTK_MODULE_ENABLE_VTK_FiltersReebGraph=NO \ # Boost
-              -DVTK_MODULE_ENABLE_VTK_IOADIOS2=NO \ # ADIOS2
-              -DVTK_MODULE_ENABLE_VTK_IOAlembic=NO \ # alembic
-              -DVTK_MODULE_ENABLE_VTK_IOFFMPEG=NO \ # FFMPEG
-              -DVTK_MODULE_ENABLE_VTK_IOGDAL=NO \ # GDAL
-              -DVTK_MODULE_ENABLE_VTK_IOLAS=NO \ # liblas
-              -DVTK_MODULE_ENABLE_VTK_IOMySQL=NO \ # MariaDB
-              -DVTK_MODULE_ENABLE_VTK_IOODBC=NO \ # odbc
-              -DVTK_MODULE_ENABLE_VTK_IOOpenVDB=NO \ # OpenVDB
-              -DVTK_MODULE_ENABLE_VTK_IOPDAL=NO \ # PDAL
-              -DVTK_MODULE_ENABLE_VTK_IOPostgreSQL=NO \ # PostgreSQL
-              -DVTK_MODULE_ENABLE_VTK_InfovisBoost=NO \ # Boost
-              -DVTK_MODULE_ENABLE_VTK_InfovisBoostGraphAlgorithms=NO \ # Boost
-              -DVTK_MODULE_ENABLE_VTK_RenderingFreeTypeFontConfig=NO \ # fontconfig
-              -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR=NO \ # OpenVR
-              -DVTK_MODULE_ENABLE_VTK_RenderingOpenXR=NO \ # OpenXR
-              -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing=NO \ # OSPRay
-              -DVTK_MODULE_ENABLE_VTK_RenderingZSpace=NO \ # zSpace
-              -DVTK_MODULE_ENABLE_VTK_fides=NO \ # ADIOS2
-              -DVTK_MODULE_ENABLE_VTK_xdmf3=NO \ # Boost
-              -DVTK_MODULE_ENABLE_VTK_IOOCCT=NO \ # occt
-              -DVTK_ENABLE_CATALYST=OFF \ # catalyst
-              -S . -B build
+            cmake -GNinja -S . -B build -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DVTK_INSTALL_SDK=ON -DVTK_BUILD_PYI_FILES=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -DVTK_RELOCATABLE_INSTALL=ON -DVTK_USE_LARGE_DATA=ON -DVTK_BUILD_ALL_MODULES=ON -DVTK_ENABLE_REMOTE_MODULES=OFF -DVTK_DEBUG_LEAKS=OFF -DVTK_VERSION_SUFFIX="" -DVTK_MODULE_ENABLE_VTK_IOXdmf2:STRING=YES -DVTK_MODULE_ENABLE_VTK_IOXdmf3:STRING=YES -DVTK_GROUP_ENABLE_Qt=NO # Qt -DVTK_MODULE_ENABLE_VTK_CommonArchive=NO -DVTK_MODULE_ENABLE_VTK_DomainsMicroscopy=NO -DVTK_MODULE_ENABLE_VTK_FiltersOpenTURNS=NO -DVTK_MODULE_ENABLE_VTK_FiltersReebGraph=NO -DVTK_MODULE_ENABLE_VTK_IOADIOS2=NO -DVTK_MODULE_ENABLE_VTK_IOAlembic=NO -DVTK_MODULE_ENABLE_VTK_IOFFMPEG=NO -DVTK_MODULE_ENABLE_VTK_IOGDAL=NO -DVTK_MODULE_ENABLE_VTK_IOLAS=NO -DVTK_MODULE_ENABLE_VTK_IOMySQL=NO -DVTK_MODULE_ENABLE_VTK_IOODBC=NO -DVTK_MODULE_ENABLE_VTK_IOOpenVDB=NO -DVTK_MODULE_ENABLE_VTK_IOPDAL=NO -DVTK_MODULE_ENABLE_VTK_IOPostgreSQL=NO -DVTK_MODULE_ENABLE_VTK_InfovisBoost=NO -DVTK_MODULE_ENABLE_VTK_InfovisBoostGraphAlgorithms=NO -DVTK_MODULE_ENABLE_VTK_RenderingFreeTypeFontConfig=NO -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR=NO -DVTK_MODULE_ENABLE_VTK_RenderingOpenXR=NO -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing=NO -DVTK_MODULE_ENABLE_VTK_RenderingZSpace=NO -DVTK_MODULE_ENABLE_VTK_fides=NO -DVTK_MODULE_ENABLE_VTK_xdmf3=NO -DVTK_MODULE_ENABLE_VTK_IOOCCT=NO -DVTK_ENABLE_CATALYST=OFF
             cmake --build build
 
       - name: Build wheel
