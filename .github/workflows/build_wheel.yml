@@ -37,7 +37,7 @@ jobs:
           bash cmake-3.21.7-linux-x86_64.sh --skip-license
 
       - name: Setup dependencies
-        run: sudo apt update && sudo apt install -y wget libboost-all-dev ninja-build g++ libx11-dev libgl1-mesa-dev xvfb qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools qttools5-dev libxcursor-dev libx11-xcb-dev libtbb-dev
+        run: sudo apt update && sudo apt install -y wget libboost-all-dev ninja-build g++ libx11-dev libgl1-mesa-dev xvfb libxcursor-dev libx11-xcb-dev libtbb-dev
 
       - uses: actions/setup-python@v5
         with:
@@ -52,7 +52,7 @@ jobs:
       - name: Build vtk
         run: |
             cd VTK-${{ github.event.inputs.vtk_full_version }}
-            cmake -GNinja -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DVTK_INSTALL_SDK=ON -DVTK_BUILD_PYI_FILES=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -DVTK_RELOCATABLE_INSTALL=ON -DVTK_USE_LARGE_DATA=ON -DVTK_BUILD_ALL_MODULES=ON -DVTK_VERSION_SUFFIX="" -DVTK_MODULE_ENABLE_VTK_IOXdmf2:STRING=YES -DVTK_MODULE_ENABLE_VTK_IOXdmf3:STRING=YES -S . -B build
+            cmake -GNinja -DVTK_WHEEL_BUILD=ON -DVTK_WRAP_PYTHON=ON -DVTK_GROUP_ENABLE_Qt=NO -DVTK_INSTALL_SDK=ON -DVTK_BUILD_PYI_FILES=ON -DCMAKE_BUILD_TYPE=Release -DVTK_GROUP_ENABLE_Web=WANT -DVTK_RELOCATABLE_INSTALL=ON -DVTK_USE_LARGE_DATA=ON -DVTK_BUILD_ALL_MODULES=ON -DVTK_VERSION_SUFFIX="" -DVTK_MODULE_ENABLE_VTK_IOXdmf2:STRING=YES -DVTK_MODULE_ENABLE_VTK_IOXdmf3:STRING=YES -S . -B build
             cmake --build build
 
       - name: Build wheel
